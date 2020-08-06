@@ -2,6 +2,8 @@
 HyperNova is a Music/Util/Fun Discord Bot built using JDA and a lot of coffee.
 
 
+**DISCLAIMER: THIS PROJECT HAS NO DOCUMENTATION, AND NEEDS STUFF THAT REQUIRE SOME KNOWLADGE**
+
 Commands:
 
 HyperNova commands are divided in two main groups:
