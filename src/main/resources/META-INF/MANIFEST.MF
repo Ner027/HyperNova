@@ -1,0 +1,1 @@
+Main-Class: com.github.Ner027.hypernova.Bot
