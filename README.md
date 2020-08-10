@@ -28,7 +28,7 @@ Commands that control the music player, if you want to play something you dont n
 the text channel defined as the music channel and write the title of what you want to play, or paste an URL.
 
 -Teams:
-Commands that control the "Team Generator" part of the bot.
+Commands that control the Team Generator" part of the bot.
 
 
 **More about HyperNova**
@@ -49,8 +49,8 @@ easy way of generating random teams based on the players that joined the generat
 Similar to the music player, "Team Generator" also needs a dedicated text channel, which should be setted using the command
 "teamsetup", after executing this command the bot will set up the channel with all you need.
 
-For joining the generator all you need to do is go to the designated text channel and type "run",no prefix needed,after that 
-your name will be added to the player list.As soon as everyon as joined a "Manager" can run the command "generate" and the teams
+For joining the generator all you need to do is go to the designated text channel and type "join",no prefix needed,after that 
+your name will be added to the player list.As soon as everyone as joined a "Manager" can run the command "generate" and the teams
 will then be generated, if you are not happy with the teams you can just execute "generate" again and it will cook yourself some
 freshly generated teams!
 
