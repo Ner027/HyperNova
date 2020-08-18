@@ -6,6 +6,8 @@ import com.github.Ner027.hypernova.GuildVars;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import java.awt.*;
+
 public class AddManager implements Command
 {
 
@@ -23,9 +25,10 @@ public class AddManager implements Command
                     event.getGuild().addRoleToMember(m, vars.managerRole).queue();
                 }
             }
-        } else
+        }
+        else
         {
-            Constants.discordUtil.tempMessage("There is no manager role set for this server", event.getChannel());
+            Constants.discordUtil.tempMessage("There is no manager role set for this server", event.getChannel(), Color.yellow);
         }
     }
 

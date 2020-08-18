@@ -57,7 +57,7 @@ public class PlayerManager
             public void trackLoaded(AudioTrack track)
             {
                 play(musicManager, track);
-                musicManager.updateQueue(channel.getGuild());
+                musicManager.updateQueue();
 
             }
 

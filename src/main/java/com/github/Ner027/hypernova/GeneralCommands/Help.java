@@ -47,7 +47,7 @@ public class Help implements Command
                     sendHelp(event.getChannel(), Constants.manager.teamInvokes, Constants.manager.randomCommands);
                     break;
                 default:
-                    Constants.discordUtil.tempMessage("Please provide a valid group of commands", event.getChannel());
+                    Constants.discordUtil.tempMessage("Please provide a valid group of commands", event.getChannel(),Color.yellow);
             }
         }
     }

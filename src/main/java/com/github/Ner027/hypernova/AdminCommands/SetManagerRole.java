@@ -6,6 +6,8 @@ import com.github.Ner027.hypernova.Constants;
 import com.github.Ner027.hypernova.GuildVars;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import java.awt.*;
+
 public class SetManagerRole implements Command
 {
 
@@ -23,7 +25,7 @@ public class SetManagerRole implements Command
                 Constants.databaseUtil.editDatabase(vars.managerRole.getIdLong(), event.getGuild(), "managerRoleID");
             } else
             {
-                Constants.discordUtil.tempMessage("Please mention a valid role!", event.getChannel());
+                Constants.discordUtil.tempMessage("Please mention a valid role!", event.getChannel(), Color.yellow);
             }
         }
     }

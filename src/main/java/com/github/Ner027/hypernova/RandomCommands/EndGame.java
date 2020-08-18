@@ -3,10 +3,11 @@ package com.github.Ner027.hypernova.RandomCommands;
 import com.github.Ner027.hypernova.Command;
 import com.github.Ner027.hypernova.Constants;
 import com.github.Ner027.hypernova.GuildVars;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import java.util.List;
+import java.awt.*;
 
 public class EndGame implements Command
 {
@@ -19,48 +20,19 @@ public class EndGame implements Command
         {
             if (Constants.discordUtil.hasRole(vars.managerRole, event.getMember()))
             {
-                if (args[1].equalsIgnoreCase("blue") || args[1].equals("red"))
+
+                if (vars.mainChannel != null)
                 {
-                    if (vars.mainChannel != null)
+                    for (Member m : vars.memberList)
                     {
-                        for (Member m : vars.memberList)
+                        if (m.getVoiceState() != null)
                         {
-                            if (m.getVoiceState() != null)
+                            if (m.getVoiceState().inVoiceChannel())
                             {
-                                if (m.getVoiceState().inVoiceChannel())
-                                {
-                                    event.getGuild().moveVoiceMember(m, vars.mainChannel).complete();
-                                }
+                                event.getGuild().moveVoiceMember(m, vars.mainChannel).complete();
                             }
                         }
                     }
-
-                    List<Member> temp = null;
-
-                    if (args[1].equalsIgnoreCase("blue"))
-                    {
-                        temp = vars.teamBlue;
-                    } else if (args[1].equalsIgnoreCase("red"))
-                        temp = vars.teamRed;
-
-                    if (temp != null)
-                    {
-                        if (!temp.isEmpty())
-                        {
-                            for (Member m : temp)
-                            {
-                                if (Constants.databaseUtil.getMembers(m) == 0)
-                                {
-                                    Constants.databaseUtil.insertMembers(m);
-                                }
-                                Constants.databaseUtil.addWin(m);
-                            }
-
-                        }
-                    }
-                } else
-                {
-                    Constants.discordUtil.tempMessage("Please provide a valid team!", event.getChannel());
                 }
 
                 if (vars.voiceBlue != null)
@@ -68,12 +40,20 @@ public class EndGame implements Command
                 if (vars.voiceRed != null)
                     vars.voiceRed.delete().queue();
 
-                Constants.discordUtil.SetupRandom(event.getGuild(), vars.randomChannel);
+                EmbedBuilder builder = new EmbedBuilder();
+                builder.setTitle("Which team won?");
+                builder.addField("", "Please react with one of the emotes", false);
+                builder.setFooter("Blue | Red");
+                builder.setColor(Color.magenta);
+                vars.endGameMessage = event.getChannel().sendMessage(builder.build()).complete();
+                vars.endGameMessage.addReaction("\uD83D\uDD35").queue();
+                vars.endGameMessage.addReaction("\uD83D\uDD34").queue();
 
-            } else
-            {
-                Constants.discordUtil.tempMessage("You dont have the required role!", event.getChannel());
             }
+        }
+        else
+        {
+            Constants.discordUtil.tempMessage("You dont have the required role!", event.getChannel(),Color.red);
         }
 
 

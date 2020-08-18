@@ -6,6 +6,8 @@ import com.github.Ner027.hypernova.Music.GuildMusicManager;
 import com.github.Ner027.hypernova.Music.PlayerManager;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import java.awt.*;
+
 public class Remove implements Command
 {
 
@@ -22,17 +24,16 @@ public class Remove implements Command
             {
                 index = Integer.parseInt(args[1]) - 1;
 
-
-                System.out.println(musicManager.scheduler.queue.size());
                 if (index <= musicManager.scheduler.queue.size() && index >= 0)
                 {
-                    System.out.println(index);
                     musicManager.scheduler.queue.remove(index);
-                    musicManager.updateQueue(event.getGuild());
-                } else Constants.discordUtil.tempMessage("Please provide a valid track index!", event.getChannel());
-            } catch (NumberFormatException e)
+                    musicManager.updateQueue();
+                }
+                else Constants.discordUtil.tempMessage("Please provide a valid track index!", event.getChannel(), Color.yellow);
+            }
+            catch (NumberFormatException e)
             {
-                Constants.discordUtil.tempMessage("Please enter a valid number!", event.getChannel());
+                Constants.discordUtil.tempMessage("Please enter a valid number!", event.getChannel(),Color.yellow);
             }
         }
     }

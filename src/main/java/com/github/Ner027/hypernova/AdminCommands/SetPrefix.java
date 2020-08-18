@@ -4,6 +4,8 @@ import com.github.Ner027.hypernova.Command;
 import com.github.Ner027.hypernova.Constants;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import java.awt.*;
+
 public class SetPrefix implements Command
 {
     @Override
@@ -13,7 +15,7 @@ public class SetPrefix implements Command
         {
             Constants.databaseUtil.getGuildVars(event.getGuild()).prefix = args[1];
             Constants.databaseUtil.addPrefix(event.getGuild(), args[1]);
-        } else Constants.discordUtil.tempMessage("Prefixes must be shorter than 10 characters", event.getChannel());
+        } else Constants.discordUtil.tempMessage("Prefixes must be shorter than 10 characters", event.getChannel(), Color.yellow);
     }
 
     @Override

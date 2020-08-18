@@ -23,6 +23,7 @@ public class Config
                 p.setProperty("DatabaseUser", "");
                 p.setProperty("DatabasePsw", "");
                 p.setProperty("OwnerID", "");
+                p.setProperty("imageURL", "");
                 p.store(os, null);
                 System.out.println("A new config file has been created, please configure your bot and then restart it");
                 try
@@ -44,6 +45,7 @@ public class Config
                 Constants.username = p.getProperty("DatabaseUser");
                 Constants.psw = p.getProperty("DatabasePsw");
                 Constants.ownerID = Long.parseLong(p.getProperty("OwnerID"));
+                Constants.imageURL = p.getProperty("imageURL");
 
             }
 

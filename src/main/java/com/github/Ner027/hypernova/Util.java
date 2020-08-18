@@ -3,14 +3,20 @@ package com.github.Ner027.hypernova;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
+import com.google.api.services.youtube.model.PlaylistItem;
+import com.google.api.services.youtube.model.PlaylistItemListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+
 
 public class Util
 {
+    private YouTube.PlaylistItems.List playlistItemRequest;
     private static YouTube youtube;
 
     public static String stringBuilder(String[] args)
@@ -65,6 +71,42 @@ public class Util
         return null;
     }
 
+    public void returnPlaylist(String inp)
+    {
+        List<PlaylistItem> playlistItemList = new ArrayList<>();
+
+
+        try
+        {
+            playlistItemRequest = youtube.playlistItems().list("snippet,contentDetails");
+
+            playlistItemRequest.setPlaylistId("PLcTITYXmnAxZjOzPfSt3QkP7V7ybttoQL");
+
+            playlistItemRequest.setFields("items(contentDetails/videoId),nextPageToken,pageInfo");
+
+            playlistItemRequest.setKey(Constants.youtubeKey);
+
+            String nextToken = "";
+
+            do {
+                playlistItemRequest.setPageToken(nextToken);
+                PlaylistItemListResponse playlistItemResult = playlistItemRequest.execute();
+
+                playlistItemList.addAll(playlistItemResult.getItems());
+
+                nextToken = playlistItemResult.getNextPageToken();
+
+            } while (nextToken != null);
+
+            System.out.println(playlistItemList.get(0).getContentDetails().getVideoId());
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
     public static void buildYoutube()
     {
 
@@ -83,6 +125,8 @@ public class Util
         youtube = temp;
     }
 
+    //Not used atm will be used to optimize the Emote actions
+
     public static boolean validEmoji(String string)
     {
 
@@ -95,5 +139,8 @@ public class Util
         }
         return false;
     }
+
+
+
 
 }

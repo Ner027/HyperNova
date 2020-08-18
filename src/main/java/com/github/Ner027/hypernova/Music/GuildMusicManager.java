@@ -24,6 +24,8 @@ public class GuildMusicManager
      */
     public final TrackScheduler scheduler;
 
+    public final Guild guild;
+
     /**
      * Creates a player and a track scheduler.
      *
@@ -32,7 +34,8 @@ public class GuildMusicManager
     public GuildMusicManager(AudioPlayerManager manager, Guild guild)
     {
         player = manager.createPlayer();
-        scheduler = new TrackScheduler(player, this, guild);
+        scheduler = new TrackScheduler(player, this, Constants.databaseUtil.getGuildVars(guild));
+        this.guild = guild;
         player.addListener(scheduler);
     }
 
@@ -44,8 +47,9 @@ public class GuildMusicManager
         return new AudioPlayerSendHandler(player);
     }
 
-    public void updateQueue(Guild guild)
+    public void updateQueue()
     {
+
         GuildVars vars = Constants.databaseUtil.getGuildVars(guild);
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
@@ -55,15 +59,32 @@ public class GuildMusicManager
 
         if (!this.scheduler.queue.isEmpty())
         {
-            int i = 0;
-
-            for (AudioTrack t : this.scheduler.queue)
+            if (this.scheduler.queue.size() >= 10)
             {
-                i++;
-                embedBuilder.addField(i + ".", t.getInfo().title, false);
-            }
-        } else embedBuilder.addField("", "Nothing else queued!", false);
+                for (int i = 0; i < 10; i++)
+                {
+                    embedBuilder.addField((i + 1) + ".", this.scheduler.queue.get(i).getInfo().title, false);
+                }
+                int left = (this.scheduler.queue.size() - 10);
 
+                if(left > 0)
+                {
+                    embedBuilder.setFooter("And " + left + " more");
+                }
+
+            }
+            else
+            {
+                int i = 0;
+                for(AudioTrack t: this.scheduler.queue)
+                {
+                    i++;
+                    embedBuilder.addField(i + ".",t.getInfo().title,false);
+                }
+                embedBuilder.setFooter("");
+            }
+        }
+        else embedBuilder.addField("", "Nothing else queued!", false);
 
         if (this.player.getPlayingTrack() == null)
         {

@@ -14,15 +14,20 @@ public class Bot
     private DiscordListener listener;
     private static long delta;
 
+    //Entry point
+
     public static void main(String[] args)
     {
+        new Config();
+
         try
         {
-            new Config();
             new Bot();
-        } catch (LoginException e)
+        }
+        catch (LoginException e)
         {
             e.printStackTrace();
+            System.out.println("Something went wrong while tying to log in");
         }
 
         System.out.println("Startup Completed in:" + delta + "ms");
@@ -33,11 +38,14 @@ public class Bot
     {
         long startTime = System.currentTimeMillis();
         listener = new DiscordListener();
+
+        //JDA Object creation
         jda = JDABuilder.createDefault(Constants.token)
                 .addEventListeners(listener)
                 .build();
         Constants.jda = jda;
 
+        //Youtube object creation
         Util.buildYoutube();
 
 
@@ -45,24 +53,18 @@ public class Bot
         Constants.databaseUtil = new DatabaseUtil();
         Constants.discordUtil = new DiscordUtil();
 
-        try
-        {
-            Constants.connection = DriverManager.getConnection(Constants.dbURL, Constants.username, Constants.psw);
-
-            System.out.println("Connected to database with success!");
-        } catch (SQLException e)
-        {
-
-            System.out.println("Error while connecting to database!");
-            e.printStackTrace();
-        }
 
         long endTime = System.currentTimeMillis();
 
+
+        //Calculate the time the bot took to initiate
         delta = endTime - startTime;
 
+        //Send the time , as a private message to the Bot Owner
         PrivateChannel txt = jda.openPrivateChannelById(Constants.ownerID).complete();
-        txt.sendMessage("Startup Completed in: " + delta + "ms").complete();
+        if(txt != null)
+            txt.sendMessage("Startup Completed in: " + delta + "ms").complete();
+        //If no ID or a invalid ID was provided nothing will happen
     }
 
 }

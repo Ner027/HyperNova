@@ -6,6 +6,8 @@ import com.github.Ner027.hypernova.Music.PlayerManager;
 import com.github.Ner027.hypernova.Util;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import java.awt.*;
+
 public class Play implements Command
 {
     @Override
@@ -55,7 +57,7 @@ public class Play implements Command
                 playerManager.loadAndPlay(event.getChannel(), Util.searchYoutube(name));
             } else
             {
-                Constants.discordUtil.tempMessage("Couldn't find what you searched for!", event.getChannel());
+                Constants.discordUtil.tempMessage("Couldn't find what you searched for!", event.getChannel(), Color.yellow);
             }
         }
 
